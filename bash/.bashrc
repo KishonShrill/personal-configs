@@ -70,3 +70,8 @@ spf() {
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"
 . "$HOME/.cargo/env"
+
+# Launch tmux upon opening terminal
+if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
+    tmux attach-session || tmux new-session
+fi

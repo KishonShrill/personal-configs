@@ -1,0 +1,10 @@
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- plugins
+require("config.lazy")
+require("config.settings")
+require("config.remap")
+require("config.file_explorer")
+vim.lsp.enable('pyright')
