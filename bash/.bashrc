@@ -71,7 +71,30 @@ spf() {
 eval "$(atuin init bash)"
 . "$HOME/.cargo/env"
 
+# Go Path Directory
+export GOPATH="$HOME/go"
+
 # Launch tmux upon opening terminal
 if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
-    tmux attach-session || tmux new-session
+    tmux_pids=$(pgrep tmux | wc -l)
+
+    if [ "$tmux_pids" -eq 0 ]; then
+        # No server → start "main"
+        tmux new-session -s main
+    elif [ "$tmux_pids" -eq 1 ]; then
+        # Server running, no client → attach to main
+        if tmux has-session -t main 2>/dev/null; then
+            tmux attach-session -t main
+        else
+            tmux new-session -s main
+        fi
+    else
+        # Server + client(s) → create new numbered session
+        i=0
+        while tmux has-session -t "$i" 2>/dev/null; do
+            i=$((i+1))
+        done
+        tmux new-session -s "$i"
+    fi
 fi
+
