@@ -1,5 +1,8 @@
 -- ~/.config/nvim/lua/config/settings.lua
 
+-- pane rendering
+vim.opt.splitright = true
+
 -- line numbering
 vim.opt.nu = true
 vim.opt.relativenumber = true

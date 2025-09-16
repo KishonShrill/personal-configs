@@ -52,6 +52,7 @@ require("lazy").setup({
         {"tpope/vim-fugitive"},
         {"nvim-tree/nvim-web-devicons"},
         {"nvim-tree/nvim-tree.lua"},
+        {"folke/snacks.nvim"},
         
         -- ✂️ Snippets & Completion
         "hrsh7th/cmp-nvim-lsp", 
@@ -72,7 +73,22 @@ require("lazy").setup({
         -- 🔧 LSP & Tools
         {"mason-org/mason.nvim", opts = {}}, {
             "mason-org/mason-lspconfig.nvim",
-            opts = {},
+            keys = {
+                {
+                    "<leader>gG",
+                    function()
+                        Snacks.terminal({ "gitui" })
+                    end,
+                    desc = "GitUi (cwd)",
+                },
+                {
+                    "<leader>gg",
+                    function()
+                        Snacks.terminal({ "gitui" }, { cwd = LazyVim.root.get() })
+                    end,
+                    desc = "GitUi (Root Dir)",
+                },
+            },
             dependencies = {
                 {"mason-org/mason.nvim", opts = {}}, "neovim/nvim-lspconfig"
             }
@@ -87,6 +103,7 @@ require("lazy").setup({
             ft = {"go", "gomod"},
             lazy = false
         }, {"mrcjkb/rustaceanvim", version = "^4", lazy = true, ft = {"rust"}},
+        {"lark-parser/vim-lark-syntax"},
 
         -- 🐞 Debugging
         "mfussenegger/nvim-dap"
