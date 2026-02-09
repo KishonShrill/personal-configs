@@ -5,17 +5,15 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
+# --- Basic PATH setup ---
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
-# Set default editor
+# --- Environment Variables ---
 export VISUAL=vim
 export EDITOR=nano
-
-# Set global variables
 export PAGER="less -FRSX"
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -31,19 +29,39 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-# Aliases for terminal programs
+# --- Load aliases ---
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Python Specific Environment for Pipenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# --- pyenv setup ---
+if ! command -v pyenv >/dev/null 2>&1; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
 
-# SuperFile cd_on_quit
+    # Initialize pyenv
+    eval "$(pyenv init - bash)"
+fi
+
+# --- Herd Lite ---
+if [[ ":$PATH:" != *":$HOME/.config/herd-lite/bin:"* ]]; then
+    export PATH="$HOME/.config/herd-lite/bin:$PATH"
+    export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+fi
+
+# --- Cargo ---
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# --- Atuin ---
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
+# --- Go ---
+if [[ ":$PATH:" != *":/usr/local/go/bin:"* ]]; then
+    export PATH="$PATH:/usr/local/go/bin"
+fi
+
+# --- SuperFile ---
 spf() {
     os=$(uname -s)
 
@@ -65,16 +83,13 @@ spf() {
     }
 }
 
-. "$HOME/.atuin/bin/env"
 
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
-. "$HOME/.cargo/env"
 
-# Go Path Directory
-export GOPATH="$HOME/go"
+# [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
-# Launch tmux upon opening terminal
+
+
+# --- Tmux auto-launch ---
 if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
     tmux_pids=$(pgrep tmux | wc -l)
 
