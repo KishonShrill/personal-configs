@@ -1,5 +1,7 @@
+-- ~/.config/nvim/lua/config/remap.lua
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>rf", "<cmd>:vsp<CR>:term python %<CR>", { desc = "Run python file in new pane" })
+vim.keymap.set("n", "<leader>rf", function() _PYTHON_RUN_CURRENT_FILE("%:p") end,
+    { desc = "Run python file in new pane" })
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -83,4 +85,3 @@ end)
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-

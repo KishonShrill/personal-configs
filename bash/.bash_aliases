@@ -7,8 +7,8 @@ alias update='sudo dnf upgrade'
 alias terminal-opacity="dconf write /org/gnome/Ptyxis/Profiles/a1b19cf4a2080de13d50b0dd68189f01/opacity"
 
 # Terminal App w/ Extra Steps
-alias copyparty-c='copyparty -c /home/perseque/.config/copyparty/foobar.conf -p 5000 --crt-dir /home/perseque/Public --qr'
-alias ibus-setup='PYTHON=/usr/bin/python ibus-setup'
+alias copyparty-c="copyparty -c $HOME/.config/copyparty/foobar.conf -p 5000 --crt-dir $HOME/Public --qr"
+alias ibus-setup="PYTHON=/usr/bin/python ibus-setup"
 
 # MySQL Database
 alias mysql-ctrlpanel='sudo /opt/lampp/manager-linux-x64.run'
