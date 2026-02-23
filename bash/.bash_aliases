@@ -28,9 +28,9 @@ alias gp='git push'
 alias gu='git pull'
 
 alias gl='git log --all --graph --pretty=oneline --abbrev-commit'
+alias glclean='git log --all --graph --pretty=oneline --abbrev-commit --simplify-by-decoration'
 alias gb='git branch'
 
 alias gi='git init'
 alias gcl='git clone'
 alias gs='git status --short'
-
