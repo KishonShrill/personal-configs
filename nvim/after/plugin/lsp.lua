@@ -49,11 +49,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 require("lsp.json").setup(capabilities)
 
 -- TypeScript
-vim.lsp.config['ts_ls'] = {
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-    cmd = { "typescript-language-server", "--stdio" },
-    capabilities = capabilities,
-}
+require("lsp.ts_ls").setup(capabilities)
+
+-- JavaScript/TypeScript
+require("lsp.eslint").setup(capabilities)
 
 -- Python
 require("lsp.basedpyright").setup(capabilities)
