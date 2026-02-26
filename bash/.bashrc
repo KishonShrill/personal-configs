@@ -115,3 +115,8 @@ fi
 
 # Go lang Path
 export PATH=$PATH:$(go env GOPATH)/bin
+
+[ -f "/home/perseque/.ghcup/env" ] && . "/home/perseque/.ghcup/env" # ghcup-env
+export HLS_VERSION="2.13.0.0"
+export PATH="$HOME/.ghcup/bin:$PATH"
+export PATH="$HOME/.ghcup/hls/$HLS_VERSION/lib/haskell-language-server-$HLS_VERSION/bin:$PATH"

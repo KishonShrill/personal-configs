@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(capabilities)
-    vim.lsp.config["jsonls"] = {
+    vim.lsp.config["ts_ls"] = {
         init_options = { hostInfo = 'neovim' },
         cmd = { "typescript-language-server", "--stdio" },
         capabilities = capabilities,

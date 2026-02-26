@@ -6,7 +6,7 @@ local function my_on_attach(bufnr)
     end
 
     -- default mappings
-    api.config.mappings.default_on_attach(bufnr)
+    api.map.on_attach.default(bufnr)
 
     -- buffer-local mappings
     vim.keymap.set("n", "l", api.node.open.edit, opts("Open File or Expand Folder"))
@@ -24,6 +24,19 @@ require("nvim-tree").setup({
     modified = {
         enable = true,
         show_on_dirs = true,
+    },
+    update_focused_file = {
+        enable = true,
+        update_cwd = false,
+    },
+    sort = {
+        sorter = "case_sensitive",
+    },
+    renderer = {
+        group_empty = true,
+    },
+    filters = {
+        dotfiles = true,
     },
     git = {
         enable = true,

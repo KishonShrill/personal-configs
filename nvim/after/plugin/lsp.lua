@@ -1,6 +1,8 @@
 require("mason").setup({})
 require("mason-lspconfig").setup()
 
+-- local on_attach = require("cmp_nvim_lsp").on_attach()
+-- local on_init = require("cmp_nvim_lsp").on_init()
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- =========================
@@ -45,6 +47,43 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+-- Haskell
+vim.lsp.config["hls"] = {
+    cmd = { 'haskell-language-server-wrapper', '--lsp' },
+    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        -- Tell Neovim not to ask HLS for these features
+        client.server_capabilities.semanticTokensProvider = nil
+        client.server_capabilities.inlayHintProvider = nil
+    end,
+    settings = {
+        haskell = {
+            formattingProvider = 'ormolu',
+            cabalFormattingProvider = 'cabal-fmt',
+            plugin = {
+                importLens = { globalOn = false },
+                recordWildCards = { globalOn = false },
+                recordDot = { globalOn = false },
+                eval = { globalOn = false },
+                tactics = { globalOn = false },
+                moduleName = { globalOn = false },
+                refineImports = { globalOn = false },
+
+                -- Add this line right here to disable the crashing plugin:
+                ['explicit-fields'] = { globalOn = false },
+            },
+        },
+    },
+}
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.hs,*.lhs",
+    callback = function()
+        vim.lsp.buf.format({ async = false }) -- The 'false' is the magic fix
+    end,
+})
+
 -- JSON
 require("lsp.json").setup(capabilities)
 
@@ -64,6 +103,8 @@ require("lsp.basedpyright").setup(capabilities)
 for _, server in ipairs(require("mason-lspconfig").get_installed_servers()) do
     if not vim.lsp.config[server] then
         vim.lsp.config[server] = {
+            on_attach = on_attach,
+            on_init = on_init,
             capabilities = capabilities,
         }
     end

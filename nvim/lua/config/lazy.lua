@@ -37,9 +37,9 @@ require("lazy").setup({
         -- ⚙️ Core Plugins
         "nvim-lua/plenary.nvim", {
         "nvim-treesitter/nvim-treesitter",
-        branch = "master",
+        branch = "main",
         lazy = false,
-        build = ":TSUpdate"
+        build = ":TSUpdate",
     }, {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.6",
@@ -54,10 +54,32 @@ require("lazy").setup({
         { "tpope/vim-fugitive" },
         { "nvim-tree/nvim-web-devicons" },
         { "nvim-tree/nvim-tree.lua" },
-        { "folke/snacks.nvim" },
+        {
+            "folke/snacks.nvim",
+            priority = 1000,
+            lazy = false,
+            ---@type snacks.Config
+            opts = {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+                bigfile = { enabled = true },
+                dashboard = { enabled = true },
+                explorer = { enabled = false },
+                indent = { enabled = true },
+                input = { enabled = true },
+                picker = { enabled = true },
+                notifier = { enabled = true },
+                quickfile = { enabled = true },
+                scope = { enabled = true },
+                scroll = { enabled = false },
+                statuscolumn = { enabled = true },
+                words = { enabled = true },
+            },
+        },
         { "sharkdp/fd" },
         { "BurntSushi/ripgrep" },
-        { 'akinsho/toggleterm.nvim',    version = "*", config = true },
+        { 'akinsho/toggleterm.nvim', version = "*", config = true },
 
         -- ✂️ Snippets & Completion
         "hrsh7th/cmp-nvim-lsp",
