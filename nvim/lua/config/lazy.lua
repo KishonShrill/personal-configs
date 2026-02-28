@@ -58,24 +58,6 @@ require("lazy").setup({
             "folke/snacks.nvim",
             priority = 1000,
             lazy = false,
-            ---@type snacks.Config
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-                bigfile = { enabled = true },
-                dashboard = { enabled = true },
-                explorer = { enabled = false },
-                indent = { enabled = true },
-                input = { enabled = true },
-                picker = { enabled = true },
-                notifier = { enabled = true },
-                quickfile = { enabled = true },
-                scope = { enabled = true },
-                scroll = { enabled = false },
-                statuscolumn = { enabled = true },
-                words = { enabled = true },
-            },
         },
         { "sharkdp/fd" },
         { "BurntSushi/ripgrep" },
@@ -118,7 +100,7 @@ require("lazy").setup({
         },
         dependencies = {
             { "mason-org/mason.nvim", opts = {} }, "neovim/nvim-lspconfig"
-        }
+        },
     }, { "b0o/schemastore.nvim" },
 
         -- 🦀 Language-specific

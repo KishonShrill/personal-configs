@@ -52,7 +52,7 @@ vim.lsp.config["hls"] = {
     cmd = { 'haskell-language-server-wrapper', '--lsp' },
     filetypes = { 'haskell', 'lhaskell', 'cabal' },
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
+    on_attach = function(client)
         -- Tell Neovim not to ask HLS for these features
         client.server_capabilities.semanticTokensProvider = nil
         client.server_capabilities.inlayHintProvider = nil
@@ -77,12 +77,15 @@ vim.lsp.config["hls"] = {
     },
 }
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.hs,*.lhs",
-    callback = function()
-        vim.lsp.buf.format({ async = false }) -- The 'false' is the magic fix
-    end,
-})
+vim.lsp.config["lua_ls"] = {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { "vim" }
+            }
+        }
+    }
+}
 
 -- JSON
 require("lsp.json").setup(capabilities)
@@ -103,8 +106,6 @@ require("lsp.basedpyright").setup(capabilities)
 for _, server in ipairs(require("mason-lspconfig").get_installed_servers()) do
     if not vim.lsp.config[server] then
         vim.lsp.config[server] = {
-            on_attach = on_attach,
-            on_init = on_init,
             capabilities = capabilities,
         }
     end

@@ -11,7 +11,8 @@ require 'nvim-treesitter'.setup {
     install_dir = vim.fn.stdpath('data') .. '/site'
 }
 require("config.treesitter")
-require("config.file_explorer")
+require("config.snacks")
+-- require("config.file_explorer")
 require("config.syntax_highlighting")
 
 

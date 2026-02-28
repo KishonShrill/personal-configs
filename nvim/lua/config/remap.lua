@@ -4,6 +4,9 @@ vim.keymap.set("n", "<leader>rf", function() _PYTHON_RUN_CURRENT_FILE("%:p") end
     { desc = "Run python file in new pane" })
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
+-- 🔑 GLOBAL KEYMAPS (Done manually using vim.keymap.set)
+vim.keymap.set("n", "<leader><", function() Snacks.explorer() end, { desc = "Focus/Open Snacks Explorer" })
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
