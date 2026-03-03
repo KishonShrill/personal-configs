@@ -24,24 +24,23 @@ local filetypes = {
     "tsx",
     "typescriptreact",
     "lua",
-    "python",
     "rust",
     "go",
     "c",
     "css",
-    "sh", -- bash → sh
     "haskell",
+    "lhaskell",
     "cabal",
-    "vim",
     "help", -- vimdoc → help
     "vue",
     "svelte",
     "astro",
+    "python",
 }
 
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = filetypes,
-    callback = function()
-        vim.treesitter.start()
-    end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = filetypes,
+--     callback = function()
+--         vim.treesitter.start()
+--     end,
+-- })
