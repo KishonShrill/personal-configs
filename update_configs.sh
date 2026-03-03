@@ -4,40 +4,55 @@
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DEST_DIR="$HOME"
 
-# Declare an associative array: ["Repo_Path"]="Destination_Path"
+# Colors for better visibility
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
 declare -A CONFIG_MAP=(
-    ["nvim"]=".config/nvim"                               # Folder
-    ["git"]=".config/git"                                 # Folder
-    ["copyparty/foobar.conf"]=".config/copyparty/foobar.conf" # File
-    ["tmux/.tmux.conf"]=".tmux.conf"                      # File
-    ["bash/.bash_aliases"]=".bash_aliases"                # File
-    ["bash/.bash_profile"]=".bash_profile"                # File
-    ["bash/.bashrc"]=".bashrc"                            # File
+    ["nvim"]=".config/nvim"
+    ["git"]=".config/git"
+    ["copyparty/foobar.conf"]=".config/copyparty/foobar.conf"
+    ["tmux/.tmux.conf"]=".tmux.conf"
+    ["bash/.bash_aliases"]=".bash_aliases"
+    ["bash/.bash_profile"]=".bash_profile"
+    ["bash/.bashrc"]=".bashrc"
 )
 
-# Loop through the keys (source paths) in the map
+echo -e "${YELLOW}Starting dotfiles symlinking...${NC}\n"
+
 for src_path in "${!CONFIG_MAP[@]}"; do
     dest_path="${CONFIG_MAP[$src_path]}"
     
     SRC="$SOURCE_DIR/$src_path"
     DEST="$DEST_DIR/$dest_path"
 
-    if [ -e "$SRC" ]; then
-        # Ensure the destination's parent directory exists (e.g., ~/.config/copyparty)
-        mkdir -p "$(dirname "$DEST")"
+    # --- Interactive Prompt ---
+    echo -n "Link $src_path to ~/$dest_path? [y/N]: "
+    read -r response
+    
+    # Only proceed if response is 'y' or 'Y'
+    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        if [ -e "$SRC" ]; then
+            # Ensure the destination's parent directory exists
+            mkdir -p "$(dirname "$DEST")"
 
-        # Remove existing file/symlink/folder at the destination
-        if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-            echo "Removing existing $DEST"
-            rm -rf "$DEST"
+            # Remove existing file/symlink/folder at the destination
+            if [ -e "$DEST" ] || [ -L "$DEST" ]; then
+                echo "  Removing existing $DEST"
+                rm -rf "$DEST"
+            fi
+
+            # Create the symbolic link
+            ln -s "$SRC" "$DEST"
+            echo -e "  ${GREEN}✓ Created symlink${NC}"
+        else
+            echo -e "  [!] Source not found: $SRC"
         fi
-
-        # Create the symbolic link (works for both files and folders)
-        ln -s "$SRC" "$DEST"
-        echo "Created symlink: $DEST -> $SRC"
     else
-        echo "Source not found: $SRC"
+        echo "  Skipping $src_path"
     fi
+    echo "" # Newline for spacing
 done
 
 echo "Configuration update finished."
