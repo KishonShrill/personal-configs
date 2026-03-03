@@ -2,6 +2,7 @@
 vim.filetype.add({
     extension = {
         qss = 'css', -- Treat files ending with .qss as CSS
+        sh = 'bash'
     },
     pattern = {
         ['%.qss$'] = 'css', -- Treat files ending with .qss as CSS

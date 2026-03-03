@@ -20,6 +20,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         -- format on save
         if client.server_capabilities.documentFormattingProvider then
+            -- Add this block:
+            if client.name == "bashls" then
+                client.server_capabilities.semanticTokensProvider = nil
+            end
+
             local format_group = vim.api.nvim_create_augroup(
                 "LspFormat" .. bufnr,
                 { clear = true }
@@ -84,12 +89,27 @@ vim.lsp.config["lua_ls"] = {
                 globals = { "vim" }
             }
         }
-    }
+    },
+    capabilities = capabilities,
 }
 
 vim.lsp.config["bashls"] = {
     cmd = { 'bash-language-server', 'start' },
+    settings = {
+        bashIde = {
+            -- Glob pattern for finding and parsing shell script files in the workspace.
+            -- Used by the background analysis features across files.
+
+            -- Prevent recursive scanning which will cause issues when opening a file
+            -- directly in the home directory (e.g. ~/foo.sh).
+            --
+            -- Default upstream pattern is "**/*@(.sh|.inc|.bash|.command)".
+            globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command)',
+        },
+    },
     filetypes = { 'bash', 'sh' },
+    root_markers = { '.git' },
+    capabilities = capabilities,
 }
 vim.lsp.enable 'bashls'
 

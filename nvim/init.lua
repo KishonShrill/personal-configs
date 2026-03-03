@@ -6,10 +6,6 @@ vim.g.loaded_netrwPlugin = 1
 require("config.lazy")
 require("config.settings")
 require("config.remap")
-require 'nvim-treesitter'.setup {
-    -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
-    install_dir = vim.fn.stdpath('data') .. '/site'
-}
 require("config.treesitter")
 require("config.snacks")
 -- require("config.file_explorer")

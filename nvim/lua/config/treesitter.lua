@@ -16,6 +16,7 @@ local parsers = {
 }
 
 require("nvim-treesitter.config").setup({
+    install_dir = vim.fn.stdpath('data') .. '/site',
     ensure_installed = parsers,
     auto_install = true,
     sync_install = false,
@@ -25,4 +26,5 @@ require("nvim-treesitter.config").setup({
         additional_vim_regex_highlighting = false,
     },
     indent = { enable = true },
+    -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
 })
