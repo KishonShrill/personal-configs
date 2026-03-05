@@ -15,7 +15,7 @@ local parsers = {
     "vim",
 }
 
-require("nvim-treesitter.config").setup({
+require("nvim-treesitter").setup({
     install_dir = vim.fn.stdpath('data') .. '/site',
     ensure_installed = parsers,
     auto_install = true,

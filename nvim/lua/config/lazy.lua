@@ -113,6 +113,12 @@ require("lazy").setup({
             lazy = false
         }, { "mrcjkb/rustaceanvim", version = "^4", lazy = true, ft = { "rust" } },
         { "lark-parser/vim-lark-syntax" },
+        {
+            "nvim-neorg/neorg",
+            lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+            version = "*", -- Pin Neorg to the latest stable release
+            config = true,
+        },
 
         -- 🐞 Debugging
         "mfussenegger/nvim-dap",

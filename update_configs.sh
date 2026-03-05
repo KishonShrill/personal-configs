@@ -14,6 +14,7 @@ declare -A CONFIG_MAP=(
     ["git"]=".config/git"
     ["copyparty/foobar.conf"]=".config/copyparty/foobar.conf"
     ["tmux/.tmux.conf"]=".tmux.conf"
+    ["kitty/kitty.conf"]=".config/kitty/kitty.conf"
     ["bash/.bash_aliases"]=".bash_aliases"
     ["bash/.bash_profile"]=".bash_profile"
     ["bash/.bashrc"]=".bashrc"

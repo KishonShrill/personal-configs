@@ -88,31 +88,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
-# Launch tmux upon opening terminal
-if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
-    tmux_pids=$(pgrep tmux | wc -l)
-
-    if [ "$tmux_pids" -eq 0 ]; then
-        # No server → start "main"
-        tmux new-session -s main -A -d
-    elif [ "$tmux_pids" -eq 1 ]; then
-        # Server running, no client → attach to main
-        if tmux has-session -t main 2>/dev/null; then
-            tmux attach-session -t main
-        else
-            tmux new-session -s main -A -d
-        fi
-    else
-        # Server + client(s) → create new numbered session
-        i=0
-        while tmux has-session -t "$i" 2>/dev/null; do
-            i=$((i+1))
-        done
-        tmux new-session -s "$i" -A -d
-    fi
-fi
-
 # Go lang Path
 export PATH=$PATH:$(go env GOPATH)/bin
 

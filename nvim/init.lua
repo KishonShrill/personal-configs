@@ -28,9 +28,6 @@ local filetypes = {
     "lhaskell",
     "cabal",
     "help", -- vimdoc → help
-    "vue",
-    "svelte",
-    "astro",
     "python",
 }
 

@@ -37,6 +37,7 @@ require("snacks").setup({
     dashboard = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
+    image = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
