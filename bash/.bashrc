@@ -18,7 +18,7 @@ export PATH
 
 # Set defeault editor
 export VISUAL=vim
-export EDITOR=nano
+export EDITOR=nvim
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 export SYSTEMD_PAGER="less -FRSX"

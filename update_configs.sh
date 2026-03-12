@@ -18,6 +18,7 @@ declare -A CONFIG_MAP=(
     ["bash/.bash_aliases"]=".bash_aliases"
     ["bash/.bash_profile"]=".bash_profile"
     ["bash/.bashrc"]=".bashrc"
+    ["zsh/.zshrc"]=".zshrc"
 )
 
 echo -e "${YELLOW}Starting dotfiles symlinking...${NC}\n"

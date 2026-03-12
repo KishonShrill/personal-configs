@@ -42,7 +42,7 @@ require("lazy").setup({
         build = ":TSUpdate",
     }, {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
+        branch = "master",
         dependencies = {
             "nvim-lua/plenary.nvim", "BurntSushi/ripgrep", "sharkdp/fd"
         }
@@ -115,7 +115,7 @@ require("lazy").setup({
         { "lark-parser/vim-lark-syntax" },
         {
             "nvim-neorg/neorg",
-            lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+            lazy = false,  -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
             version = "*", -- Pin Neorg to the latest stable release
             config = true,
         },
