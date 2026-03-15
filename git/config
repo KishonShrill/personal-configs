@@ -84,6 +84,10 @@
 
 
 # --- Pagers & Colors ---
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = nvim
+
 [pager]
 	diff = diff-so-fancy | less -FRSX | $PAGER
 	branch = false
