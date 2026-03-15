@@ -31,6 +31,17 @@ local filetypes = {
     "python",
 }
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "tex",
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true -- Wrap at word boundaries
+        vim.opt_local.textwidth = 0 -- No hard line breaks
+        vim.opt_local.wrapmargin = 0
+    end,
+})
+
+
 -- vim.api.nvim_create_autocmd('FileType', {
 --     pattern = filetypes,
 --     callback = function()
