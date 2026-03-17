@@ -27,49 +27,97 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
     spec = {
         -- 🌈 Colorschemes
-        {
-            "Tsuzat/NeoSolarized.nvim",
-            lazy = false,
-            priority = 1000 -- load first
-        }, { "rebelot/kanagawa.nvim" }, { "lunarvim/darkplus.nvim" },
-        { "catppuccin/nvim",      name = "catppuccin", priority = 1000 },
+        { "Tsuzat/NeoSolarized.nvim", lazy = false,        priority = 1000 },
+        { "rebelot/kanagawa.nvim" },
+        { "lunarvim/darkplus.nvim" },
+        { "catppuccin/nvim",          name = "catppuccin", priority = 1000 },
+
 
         -- ⚙️ Core Plugins
-        "nvim-lua/plenary.nvim", {
-        "nvim-treesitter/nvim-treesitter",
-        branch = "main",
-        lazy = false,
-        build = ":TSUpdate",
-    }, {
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
-        dependencies = {
-            "nvim-lua/plenary.nvim", "BurntSushi/ripgrep", "sharkdp/fd"
-        }
-    }, {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" }
-    }, { "nvim-lualine/lualine.nvim" }, { "mbbill/undotree" },
+        { "nvim-lua/plenary.nvim" },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            branch = "main",
+            lazy = false,
+            build = ":TSUpdate",
+            init = function()
+                local parser_installed = {
+                    "javascript",
+                    "typescript",
+                    "tsx",
+                    "lua",
+                    "luadoc",
+                    "python",
+                    "rust",
+                    "go",
+                    "vimdoc",
+                    "c",
+                    "css",
+                    "bash",
+                    "haskell",
+                    "vim",
+                    "query",
+                    "markdown_inline",
+                    "markdown",
+                }
+
+                vim.defer_fn(function() require("nvim-treesitter").install(parser_installed) end, 1000)
+                require("nvim-treesitter").update()
+
+                -- auto-start highlights & indentation
+                vim.api.nvim_create_autocmd("FileType", {
+                    desc = "User: enable treesitter highlighting",
+                    callback = function(ctx)
+                        -- highlights
+                        local hasStarted = pcall(vim.treesitter.start) -- errors for filetypes with no parser
+
+                        -- indent
+                        local noIndent = {}
+                        if hasStarted and not vim.list_contains(noIndent, ctx.match) then
+                            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                        end
+                    end,
+                })
+            end
+        },
+        {
+            "nvim-telescope/telescope.nvim",
+            branch = "master",
+            dependencies = { "nvim-lua/plenary.nvim" }
+        },
+        {
+            "ThePrimeagen/harpoon",
+            branch = "harpoon2",
+            dependencies = { "nvim-lua/plenary.nvim" }
+        },
+        { "nvim-lualine/lualine.nvim" },
+        { "mbbill/undotree" },
         { "tpope/vim-fugitive" },
         { "nvim-tree/nvim-web-devicons" },
-        { "nvim-tree/nvim-tree.lua" },
+        -- { "nvim-tree/nvim-tree.lua" },
         {
             "folke/snacks.nvim",
             priority = 1000,
             lazy = false,
+            keys = {
+                {
+                    "<leader>gG",
+                    function() Snacks.terminal({ "gitui" }) end,
+                    desc = "GitUi (cwd)",
+                },
+                {
+                    "<leader>gg",
+                    function() Snacks.terminal({ "gitui" }, { cwd = vim.fn.getcwd() }) end,
+                    desc = "GitUi (Root Dir)",
+                },
+            }
         },
-        { "sharkdp/fd" },
-        { "BurntSushi/ripgrep" },
         { 'akinsho/toggleterm.nvim', version = "*", config = true },
 
+
         -- ✂️ Snippets & Completion
-        "hrsh7th/cmp-nvim-lsp",
-
-        -- completion source for LSP
-        "hrsh7th/nvim-cmp",
-
-        -- completion engine
+        { "hrsh7th/cmp-nvim-lsp" },
+        { "hrsh7th/nvim-cmp" },
         {
             "L3MON4D3/LuaSnip",
             version = "v2.*",
@@ -79,29 +127,18 @@ require("lazy").setup({
             }
         },
 
+
         -- 🔧 LSP & Tools
-        { "mason-org/mason.nvim", opts = {} }, {
-        "mason-org/mason-lspconfig.nvim",
-        keys = {
-            {
-                "<leader>gG",
-                function()
-                    Snacks.terminal({ "gitui" })
-                end,
-                desc = "GitUi (cwd)",
-            },
-            {
-                "<leader>gg",
-                function()
-                    Snacks.terminal({ "gitui" }, { cwd = LazyVim.root.get() })
-                end,
-                desc = "GitUi (Root Dir)",
+        { "mason-org/mason.nvim", opts = {} },
+        {
+            "mason-org/mason-lspconfig.nvim",
+            dependencies = {
+                "mason-org/mason.nvim",
+                "neovim/nvim-lspconfig"
             },
         },
-        dependencies = {
-            { "mason-org/mason.nvim", opts = {} }, "neovim/nvim-lspconfig"
-        },
-    }, { "b0o/schemastore.nvim" },
+        { "b0o/schemastore.nvim" },
+
 
         -- 🦀 Language-specific
         {
@@ -111,14 +148,16 @@ require("lazy").setup({
             event = { "CmdlineEnter" },
             ft = { "go", "gomod" },
             lazy = false
-        }, { "mrcjkb/rustaceanvim", version = "^4", lazy = true, ft = { "rust" } },
+        },
+        { "mrcjkb/rustaceanvim",        version = "^4", lazy = true, ft = { "rust" } },
         { "lark-parser/vim-lark-syntax" },
         {
             "nvim-neorg/neorg",
-            lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-            version = "*", -- Pin Neorg to the latest stable release
+            lazy = false,
+            version = "*",
             config = true,
         },
+
 
         -- 🐞 Debugging
         "mfussenegger/nvim-dap",

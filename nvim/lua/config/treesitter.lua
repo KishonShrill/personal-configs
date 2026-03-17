@@ -1,30 +1,35 @@
-local parsers = {
-    "javascript",
-    "typescript",
-    "tsx", -- important
-    "lua",
-    "luadoc",
-    "python",
-    "rust",
-    "go",
-    "vimdoc",
-    "c",
-    "css",
-    "bash",
-    "haskell",
-    "vim",
-}
-
-require("nvim-treesitter").setup({
-    install_dir = vim.fn.stdpath('data') .. '/site',
-    ensure_installed = parsers,
-    auto_install = true,
-    sync_install = false,
-    highlight = {
-        enable = true,
-        disable = { "lhaskell" },
-        additional_vim_regex_highlighting = false,
-    },
-    indent = { enable = true },
-    -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
-})
+-- local ensureInstalled = {
+--     "javascript",
+--     "typescript",
+--     "tsx", -- important
+--     "lua",
+--     "luadoc",
+--     "python",
+--     "rust",
+--     "go",
+--     "vimdoc",
+--     "c",
+--     "css",
+--     "bash",
+--     "haskell",
+--     "vim",
+-- }
+-- local alreadyInstalled = require("nvim-treesitter.config").get_installed()
+-- local parsersToInstall = vim.iter(ensureInstalled)
+--     :filter(function(parser) return not vim.tbl_contains(alreadyInstalled, parser) end)
+--     :totable()
+--
+-- require("nvim-treesitter").setup({
+--     install_dir = vim.fn.stdpath('data') .. '/site',
+--     -- sync_install = false,
+--     -- auto_install = true,
+--     -- highlight = {
+--     --     enable = true,
+--     --     disable = { "lhaskell" },
+--     --     additional_vim_regex_highlighting = false,
+--     -- },
+--     -- indent = { enable = true },
+--     -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+-- })
+--
+-- require("nvim-treesitter").install(parsersToInstall)

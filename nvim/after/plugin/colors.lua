@@ -2,29 +2,33 @@
 -- ~/.config/nvim/after/plugin/colors.lua
 
 require("catppuccin").setup({
-	flavour = "frappe", -- auto, latte, frappe, macchiato, mochai
-	background = { -- :h background
-        light = "latte",
+    flavour = "auto", -- auto, latte, frappe, macchiato, mocha
+    background = {
+        light = "frappe",
         dark = "mocha",
     },
     transparent_background = true, -- disables setting the background color.
-	styles = {
-		comment = { "italic" },
-		keyword = { "italic" },
-		functions = { "bold" },
-		strings = { "italic" },
-		booleans = { "bold" },
-		underline = true,
-		undercurl = true,
-	},
+    float = {
+        transparent = true,
+        solide = false
+    },
+    styles = {
+        comment = { "italic" },
+        keyword = { "italic" },
+        functions = { "bold" },
+        strings = { "italic" },
+        booleans = { "bold" },
+        underline = true,
+        undercurl = true,
+    },
+    default_integrations = true,
+    auto_integrations = true,
     integrations = {
-        cmp = true,
-        nvimtree = true,
-        treesitter = true,
-	},
+        telescope = { enabled = true, },
+        treesitter_context = true,
+    }
 })
-
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme "catppuccin-nvim"
 -- NeoSolarized
 -- dakrplus
 -- kanagawa
