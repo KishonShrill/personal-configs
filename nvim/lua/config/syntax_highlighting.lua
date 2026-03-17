@@ -2,7 +2,17 @@
 vim.filetype.add({
     extension = {
         qss = 'css', -- Treat files ending with .qss as CSS
-        sh = 'bash'
+        sh = 'bash',
+    },
+    filename = {
+        -- Exact matches for your Git setup files
+        ['config'] = 'bash',
+        ['ignore'] = 'bash',
+        ['template'] = 'bash',
+
+        -- You can also add the dot-prefixed versions just to be safe
+        ['.gitconfig'] = 'bash',
+        ['.gitignore'] = 'bash',
     },
     pattern = {
         ['%.qss$'] = 'css', -- Treat files ending with .qss as CSS

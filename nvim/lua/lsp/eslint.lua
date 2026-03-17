@@ -37,54 +37,14 @@ function M.setup(capabilities)
                     arguments = {
                         {
                             uri = vim.uri_from_bufnr(bufnr),
-                            version = lsp.util.buf_versions[bufnr],
+                            version = vim.lsp.util.buf_versions[bufnr],
                         },
                     },
                 }, nil, bufnr)
             end, {})
         end,
-        root_dir = function(bufnr, on_dir)
-            local util = vim.lsp.util
-            -- The project root is where the LSP can be started from
-            -- As stated in the documentation above, this LSP supports monorepos and simple projects.
-            -- We select then from the project root, which is identified by the presence of a package
-            -- manager lock file.
-            local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
-            -- Give the root markers equal priority by wrapping them in a table
-            root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers, { '.git' } }
-                or vim.list_extend(root_markers, { '.git' })
-
-            -- exclude deno
-            if vim.fs.root(bufnr, { 'deno.json', 'deno.jsonc', 'deno.lock' }) then
-                return
-            end
-
-            -- We fallback to the current working directory if no project root is found
-            local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
-
-            on_dir(project_root)
-
-            -- We know that the buffer is using ESLint if it has a config file
-            -- in its directory tree.
-            --
-            -- Eslint used to support package.json files as config files, but it doesn't anymore.
-            -- We keep this for backward compatibility.
-            -- local filename = vim.api.nvim_buf_get_name(bufnr)
-            -- local eslint_config_files_with_package_json =
-            --     util.insert_package_json(eslint_config_files, 'eslintConfig', filename)
-            -- local is_buffer_using_eslint = vim.fs.find(eslint_config_files_with_package_json, {
-            --     path = filename,
-            --     type = 'file',
-            --     limit = 1,
-            --     upward = true,
-            --     stop = vim.fs.dirname(project_root),
-            -- })[1]
-            -- if not is_buffer_using_eslint then
-            --     return
-            -- end
-
-            -- on_dir(project_root)
-        end,
+        -- For ts_ls.lua and eslint.lua, replace the whole root_dir function with:
+        root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', '.git' },
         capabilities = capabilities,
         -- Refer to https://github.com/Microsoft/vscode-eslint#settings-options for documentation.
         settings = {

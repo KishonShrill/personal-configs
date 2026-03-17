@@ -38,17 +38,12 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
 
 -- filetype trigger
-vim.opt.filetype='on'
+-- vim.opt.filetype='on'
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
 -- set escape to enter normal mode in terminal buffer
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], {silent = true, noremap = true})
-vim.api.nvim_set_keymap("n", "<leader><leader>term", ':belowright split | terminal<CR>', 
-    {noremap = true, silent=true})
-
-
-
-
-
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap("n", "<leader><leader>term", ':belowright split | terminal<CR>',
+    { noremap = true, silent = true })
