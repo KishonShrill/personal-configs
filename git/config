@@ -22,6 +22,8 @@
 	compression = 9
 	whitespace = error
 #	preloadindex = true
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = nvim
 
 [init]
 	defaultBranch = main

@@ -14,6 +14,10 @@ export PATH="$PATH:$GOPATH/bin"
 export HLS_VERSION="2.13.0.0"
 export PATH="$HOME/.ghcup/bin:$HOME/.ghcup/hls/$HLS_VERSION/lib/haskell-language-server-$HLS_VERSION/bin:$PATH"
 
+# Neovim Default
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 # =============================================================================
 # 2. OH MY ZSH CONFIGURATION
 # =============================================================================
