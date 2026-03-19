@@ -1,6 +1,9 @@
 # .bashrc
 
-# Pre-script to change shell depending on desktop session
+# =============================================================================
+# 1. SHELL HAND-OFF & GLOBALS
+# =============================================================================
+# Pre-script: Immediately hand off to Zsh if running under Hyprland
 if [[ "$XDG_SESSION_DESKTOP" == "hyprland" ]]; then
     exec zsh
 fi
@@ -10,13 +13,11 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-export PATH
 
-# Set defeault editor
+# =============================================================================
+# 2. ENVIRONMENT VARIABLES & PATH
+# =============================================================================
+# Default Editors
 export VISUAL=vim
 export EDITOR=nano
 
@@ -24,29 +25,75 @@ export EDITOR=nano
 export SYSTEMD_PAGER="less -FRSX"
 export PAGER="less -FRSX"
 
-# User specific aliases and functions
+# Export for PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+
+# Go Path (Optimized to avoid slow subshell)
+export GOPATH="${GOPATH:-$HOME/go}"
+export PATH="$PATH:$GOPATH/bin"
+
+# Haskell / GHCup
+export HLS_VERSION="2.13.0.0"
+export PATH="$HOME/.ghcup/bin:$HOME/.ghcup/hls/$HLS_VERSION/lib/haskell-language-server-$HLS_VERSION/bin:$PATH"
+
+
+# =============================================================================
+# 3. TOOL INITIALIZATION
+# =============================================================================
+# Python / Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Cargo / Rust
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# GHCup Environment
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env"
+
+# NVM (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# Atuin (History)
+. "$HOME/.atuin/bin/env"
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
+
+# =============================================================================
+# 4. ALIASES & SOURCING
+# =============================================================================
+# User specific aliases and functions (.bashrc.d directory)
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
         if [ -f "$rc" ]; then
             . "$rc"
         fi
     done
+    unset rc
 fi
-unset rc
 
-# User specific aliases and functions
+# Standard Aliases
 if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
+    . ~/.bash_aliases
 fi
 
-# Python Specific Environment for Pipenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
-# Export for PKG_CONFIG_PATH
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig
+# =============================================================================
+# 5. CUSTOM FUNCTIONS
+# =============================================================================
+# XAMPP Manager Shortcut
+lampp-manager() {
+    sudo /opt/lampp/manager-linux-x64.run
+}
 
 # SuperFile cd_on_quit
 spf() {
@@ -69,29 +116,3 @@ spf() {
         rm -f -- "$SPF_LAST_DIR" > /dev/null
     }
 }
-
-. "$HOME/.atuin/bin/env"
-
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
-. "$HOME/.cargo/env"
-
-# Ensure SSH agent runs everytime the shell is opened
-# eval "$(ssh-agent)"
-
-# Aliases for programs cause I am tired of MEMORISING THEM!
-lampp-manager() {
-    sudo /opt/lampp/manager-linux-x64.run
-}
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Go lang Path
-export PATH=$PATH:$(go env GOPATH)/bin
-
-[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
-export HLS_VERSION="2.13.0.0"
-export PATH="$HOME/.ghcup/bin:$PATH"
-export PATH="$HOME/.ghcup/hls/$HLS_VERSION/lib/haskell-language-server-$HLS_VERSION/bin:$PATH"
