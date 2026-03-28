@@ -1,0 +1,14 @@
+[Unit]
+Description=Send Discord Notification on Boot
+# This ensures the service waits until the network is actually online, not just initialized.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Path to your bash script
+ExecStart=/usr/local/bin/discord-boot-notify.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
