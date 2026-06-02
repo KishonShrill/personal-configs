@@ -93,6 +93,18 @@ vim.lsp.config["lua_ls"] = {
     capabilities = capabilities,
 }
 
+vim.lsp.config["cssls"] = {
+    settings = {
+        css = {
+            validate = true,
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        }
+    },
+    capabilities = capabilities,
+}
+
 vim.lsp.config["bashls"] = {
     cmd = { 'bash-language-server', 'start' },
     settings = {

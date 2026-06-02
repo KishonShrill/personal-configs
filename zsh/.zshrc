@@ -17,6 +17,9 @@ fi
 export GOPATH="${GOPATH:-$HOME/go}"
 export PATH="$PATH:$GOPATH/bin"
 
+# Nvim LSP Servers
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+
 # Haskell / GHCup
 export HLS_VERSION="2.13.0.0"
 export PATH="$HOME/.ghcup/bin:$HOME/.ghcup/hls/$HLS_VERSION/lib/haskell-language-server-$HLS_VERSION/bin:$PATH"

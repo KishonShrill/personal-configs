@@ -61,6 +61,7 @@ require("lazy").setup({
                     "markdown",
                 }
 
+                require("nvim-treesitter").setup({ install_dir = vim.fn.stdpath('data') .. '/site' })
                 vim.defer_fn(function() require("nvim-treesitter").install(parser_installed) end, 1000)
                 require("nvim-treesitter").update()
 

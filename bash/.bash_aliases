@@ -28,6 +28,7 @@ alias gp='git push'
 alias gu='git pull'
 
 alias gl='git log --all --graph --pretty=oneline --abbrev-commit'
+alias pass-gl='pass git log --all --graph --pretty=oneline --abbrev-commit'
 alias glclean='git log --all --graph --pretty=oneline --abbrev-commit --simplify-by-decoration'
 alias gb='git branch'
 
